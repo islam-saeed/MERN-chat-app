@@ -1,47 +1,40 @@
 import io from 'socket.io-client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './App.css';
 
+
 function App() {
-  const [socket, setSocket] = useState(null);
+
+  const socketUrl = 'http://localhost:3000';
+  let socket = useRef(null);
   const [inputText, setInputText] = useState('');
 
-  useEffect(()=>{
-    const socketInstance = io('http://localhost:3000');
-    setSocket(socketInstance);
-    // listen for events emitted by the server
-
-    socketInstance.on('connection', () => {
-      console.log('Connected to server');
+  useEffect(() => {
+    socket.current = io(socketUrl, {
+      autoConnect: false,
     });
-
-    socketInstance.on('message', (data) => {
-      console.log(`Received message: ${data}`);
-    });
-
-    return () => {
-      if (socketInstance) {
-        socketInstance.disconnect();
-      }
-    };
-  },[])
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const message = inputText
   
-    if (socket && message) {
-      socket.emit('new-message', message);
-    }
+    socket.current.on("connect", () => {
+      console.log("Connected to the server");
+    });
+  
+    socket.current.on("incoming-message", (data) => {
+      console.log(data);
+    });
+  
+    socket.current.emit("hello", "world");
+  }, [socket]);
+
+
+  const handleSubmit = () => {
+    socket.current.emit("hello", "world");
   };
 
   return (
     <div className="App">
       <div id="message-container"></div>
-      <form id="send-container">
-        <input type="text" id="message-input" onChange={(e)=>setInputText(e.target.value)}/>
+        <input type="text" id="message-input" value={inputText} onChange={(e)=>setInputText(e.target.value)}/>
         <button type="submit" id="send-button" onClick={handleSubmit}>Send</button>
-      </form>
     </div>
   );
 }
