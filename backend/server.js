@@ -1,5 +1,5 @@
 const http = require("http");
-const Server = require("socket.io");
+const { Server } = require("socket.io");
 const express = require("express");
 const app=express();
 const cors=require("cors");
@@ -19,11 +19,7 @@ io.on('connection', (socket) => {
   console.log(`User connected: ${socket.id}`);
 
   socket.on("new-message", (data) => {
-    console.log("New message received: ", data);
-  });
-
-  socket.on("hello", (data) => {
-    console.log("Hello message received: ", data);
+    socket.broadcast.emit("incoming-message", data)
   });
 });
 

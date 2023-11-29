@@ -14,20 +14,28 @@ function App() {
       autoConnect: false,
     });
   
+    socket.current.connect()
+
     socket.current.on("connect", () => {
       console.log("Connected to the server");
     });
   
+    
+    return () => {
+      socket.current.disconnect();
+    };
+  }, []);
+
+
+  useEffect(()=>{
     socket.current.on("incoming-message", (data) => {
       console.log(data);
     });
-  
-    socket.current.emit("hello", "world");
-  }, [socket]);
-
+  }, [socket.current])
 
   const handleSubmit = () => {
-    socket.current.emit("hello", "world");
+    if(inputText && socket.current)
+      socket.current.emit("new-message", inputText);
   };
 
   return (
