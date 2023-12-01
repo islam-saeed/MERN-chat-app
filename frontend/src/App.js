@@ -7,6 +7,7 @@ function App() {
   const socketUrl = 'http://localhost:3000';
   let socket = useRef(null);
   const [inputText, setInputText] = useState('');
+  const [ messages, setMessages] = useState([]);
 
   useEffect(() => {
     socket.current = io(socketUrl, {
@@ -28,22 +29,31 @@ function App() {
 
   useEffect(()=>{
     socket.current.on("incoming-message", (data) => {
-      console.log(data);
+      setMessages(prev => [...prev, { sender: 'other', message: data}])
     });
   }, [socket.current])
 
   const handleSubmit = () => {
     if(inputText && socket.current)
       socket.current.emit("new-message", inputText);
+      setMessages(prev => [...prev, { sender: 'other', message: inputText}])
+      setInputText('');
   };
 
   return (
     <div className="App bg-[#222] text-white h-[100vh] w-[100%] flex justify-center items-center flex-col-reverse">
       <div id="chat-container" className='w-[80vw] h-[90vh] bg-[#111] rounded flex flex-col-reverse p-3'>
-        <div id="message-container"></div>
         <div className='flex justify-around'>
           <input type="text" id="message-input" className='bg-[#333] rounded-full w-[90%] py-2 px-4 focus:outline-none' placeholder='type a message' autoComplete='off' value={inputText} onChange={(e)=>setInputText(e.target.value)}/>
           <button type="submit" id="send-button" className='rounded-full bg-[#C40234] w-12 h-12 flex justify-center items-center text-xl' onClick={handleSubmit}><IoSend /></button>
+        </div>
+        <div id="message-container" className='mx-6'>
+          <div>
+            <div className='p-4 my-4 bg-gray-800 rounded-xl w-fit'>Something<br />Something<br /></div>
+          </div>
+          <div className='flex justify-end'>
+            <div className='p-4 my-4 bg-gray-700 rounded-xl w-fit'>Something<br />Something<br /></div>
+          </div>
         </div>
       </div>
     </div>
