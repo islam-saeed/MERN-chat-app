@@ -20,20 +20,17 @@ function App() {
       console.log("Connected to the server");
     });
   
+    socket.current.on("incoming-message", (data) => {
+      setMessages(prev => [...prev, { sender: 'other', message: data}])
+    });
     
     return () => {
       socket.current.disconnect();
     };
   }, []);
 
-
-  useEffect(()=>{
-    socket.current.on("incoming-message", (data) => {
-      setMessages(prev => [...prev, { sender: 'other', message: data}])
-    });
-  }, [socket.current])
-
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if(inputText && socket.current)
       socket.current.emit("new-message", inputText);
       setMessages(prev => [...prev, { sender: 'you', message: inputText}])
@@ -43,10 +40,10 @@ function App() {
   return (
     <div className="App bg-[#222] text-white h-[100vh] w-[100%] flex justify-center items-center flex-col-reverse">
       <div id="chat-container" className='w-[80vw] h-[90vh] bg-[#111] rounded flex flex-col-reverse p-3'>
-        <div className='flex justify-around'>
+        <form className='flex justify-around' onSubmit={e=>handleSubmit(e)}>
           <input type="text" id="message-input" className='bg-[#333] rounded-full w-[90%] py-2 px-4 focus:outline-none' placeholder='type a message' autoComplete='off' value={inputText} onChange={(e)=>setInputText(e.target.value)}/>
-          <button type="submit" id="send-button" className='rounded-full bg-[#C40234] w-12 h-12 flex justify-center items-center text-xl' onClick={handleSubmit}><IoSend /></button>
-        </div>
+          <button type="submit" id="send-button" className='rounded-full bg-[#C40234] w-12 h-12 flex justify-center items-center text-xl'><IoSend /></button>
+        </form>
         <div id="message-container" className='mx-6 flex flex-col'>
           {messages.map((message)=>{
             if(message.sender==='you'){
