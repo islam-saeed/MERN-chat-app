@@ -36,7 +36,7 @@ function App() {
   const handleSubmit = () => {
     if(inputText && socket.current)
       socket.current.emit("new-message", inputText);
-      setMessages(prev => [...prev, { sender: 'other', message: inputText}])
+      setMessages(prev => [...prev, { sender: 'you', message: inputText}])
       setInputText('');
   };
 
@@ -47,13 +47,22 @@ function App() {
           <input type="text" id="message-input" className='bg-[#333] rounded-full w-[90%] py-2 px-4 focus:outline-none' placeholder='type a message' autoComplete='off' value={inputText} onChange={(e)=>setInputText(e.target.value)}/>
           <button type="submit" id="send-button" className='rounded-full bg-[#C40234] w-12 h-12 flex justify-center items-center text-xl' onClick={handleSubmit}><IoSend /></button>
         </div>
-        <div id="message-container" className='mx-6'>
-          <div>
-            <div className='p-4 my-4 bg-gray-800 rounded-xl w-fit'>Something<br />Something<br /></div>
-          </div>
-          <div className='flex justify-end'>
-            <div className='p-4 my-4 bg-gray-700 rounded-xl w-fit'>Something<br />Something<br /></div>
-          </div>
+        <div id="message-container" className='mx-6 flex flex-col'>
+          {messages.map((message)=>{
+            if(message.sender==='you'){
+              return (
+                <div className='flex justify-end'>
+                <div className='p-4 my-4 bg-gray-700 rounded-xl w-fit'>{message.message}</div>
+                </div>
+              )
+            } else if(message.sender==='other'){
+              return (
+                <div className='flex justify-start'>
+                <div className='p-4 my-4 bg-gray-800 rounded-xl w-fit'>{message.message}</div>
+                </div>
+                )
+              }
+          })}
         </div>
       </div>
     </div>
