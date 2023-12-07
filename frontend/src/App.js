@@ -5,7 +5,7 @@ import NoPage from "./pages/NoPage";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App bg-[#222] text-white h-[100vh] w-[100%]">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Chat />} />
