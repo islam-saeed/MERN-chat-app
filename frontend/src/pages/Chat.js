@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { IoSend } from "react-icons/io5";
 
 const Chat = () => {
-    const socketUrl = process.env.REACT_APP_SERVER_URL;
+    const socketUrl = process.env.REACT_APP_SOCKET_URL;
     let socket = useRef(null);
     const [inputText, setInputText] = useState('');
     const [ messages, setMessages] = useState([]);
