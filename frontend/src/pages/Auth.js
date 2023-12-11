@@ -1,7 +1,13 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {useSpring, animated} from 'react-spring'
 import axios from 'axios'
+import { userContext } from '../context/UserContext'
+import { useNavigate } from 'react-router-dom'
 const Auth = () => {
+
+  const navigate = useNavigate()
+
+  const [user, setUser] = useContext(userContext)
 
   const [signUpEmail, setSignUpEmail] = useState('')
   const [signUpUsername, setSignUpUsername] = useState('')
@@ -113,7 +119,9 @@ const Auth = () => {
     
     axios(options)
       .then(response => {
-        console.log(response.status);
+        setUser(response)
+        console.log(user)
+        navigate('/')
       });
   }
 
@@ -133,7 +141,9 @@ const Auth = () => {
     
     axios(options)
       .then(response => {
-        console.log(response.status);
+        setUser(response)
+        console.log(user)
+        navigate('/')
       });
   }
   return (
