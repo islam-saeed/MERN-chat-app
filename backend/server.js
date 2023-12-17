@@ -13,23 +13,6 @@ app.use((req,res,next) => {
     next()
 })
 app.use('/',router)
-// const httpServer = http.createServer(app);
-
-// const io = new Server(httpServer, {
-//   cors: {
-//     origin: "http://localhost:3001",
-//     methods: ["GET", "POST"]
-//   }
-// });
-const io = require('socket.io')(3001)
-
-io.on('connection', (socket) => {
-  console.log(`User connected: ${socket.id}`);
-
-  socket.on("new-message", (data) => {
-    socket.broadcast.emit("incoming-message", data)
-  });
-});
 
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {

@@ -46,14 +46,14 @@ const Chat = () => {
                 {messages.map((message)=>{
                     if(message.sender==='you'){
                     return (
-                        <div className='flex justify-end'>
-                        <div className='p-4 my-4 bg-gray-700 rounded-xl w-fit'>{message.message}</div>
+                        <div className='flex justify-end' key={message.message}>
+                          <div className='p-4 my-4 bg-gray-700 rounded-xl w-fit'>{message.message}</div>
                         </div>
                     )
                     } else if(message.sender==='other'){
                     return (
-                        <div className='flex justify-start'>
-                        <div className='p-4 my-4 bg-gray-800 rounded-xl w-fit'>{message.message}</div>
+                        <div className='flex justify-start' key={message.message}>
+                          <div className='p-4 my-4 bg-gray-800 rounded-xl w-fit'>{message.message}</div>
                         </div>
                         )
                     }

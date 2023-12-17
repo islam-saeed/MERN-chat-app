@@ -104,7 +104,7 @@ const Auth = () => {
 
   const handleSignUp = () => {
     const options = {
-      url: 'http://localhost:4000/user/signup',
+      url: process.env.REACT_APP_SIGNUP_URL,
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -127,7 +127,7 @@ const Auth = () => {
 
   const handleSignIn = () => {
     const options = {
-      url: 'http://localhost:4000/user/login',
+      url: process.env.REACT_APP_SIGNIN_URL,
       method: 'POST',
       headers: {
         'Accept': 'application/json',
