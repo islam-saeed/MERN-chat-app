@@ -52,7 +52,7 @@ const Auth = () => {
         x: 0
       },
       to: {
-        x: 420
+        x: window.innerWidth*0.3
       }
     })
 
@@ -83,7 +83,7 @@ const Auth = () => {
 
     containerAPI.start({
       from: {
-        x: 420
+        x: window.innerWidth*0.3
       },
       to: {
         x: 0
@@ -147,8 +147,9 @@ const Auth = () => {
       });
   }
   return (
-    <div className='flex justify-center items-center h-[100%]'>
-      <animated.div className='bg-[#111] flex justify-center items-center rounded-xl w-[50vh] h-[65vh] absolute left-[23%] overflow-hidden' style={{...containerSprings}}>
+    <>
+    <div className='hidden lg:flex justify-center items-center h-[100%]'>
+      <animated.div className='bg-[#111] flex justify-center items-center rounded-xl w-[30%] h-[65vh] absolute left-[20%] overflow-hidden' style={{...containerSprings}}>
         <animated.div className='flex flex-col items-center p-10 absolute' style={{...signUpSprings}}>
           <h1 className='text-2xl m-3'>Sign Up</h1>
           <input type='email' value={signUpEmail} onChange={(e)=>setSignUpEmail(e.target.value)} placeholder='Email' className='bg-[#333] rounded-2xl py-2 px-4 m-2 focus:outline-none' />
@@ -175,6 +176,33 @@ const Auth = () => {
         </div>
       </div>
     </div>
+    <div className=' lg:hidden flex justify-center items-center h-[100%] flex-col relative overflow-hidden'>
+      <div className='bg-[#111] flex justify-center items-center rounded-xl xs:w-[90%] sm:w-[65%] h-[80vh]'>
+        <animated.div className='flex flex-col items-center p-10 absolute' style={{...signUpSprings}}>
+          <h1 className='text-2xl m-3'>Sign Up</h1>
+          <input type='email' value={signUpEmail} onChange={(e)=>setSignUpEmail(e.target.value)} placeholder='Email' className='bg-[#333] rounded-2xl py-2 px-4 m-2 focus:outline-none' />
+          <input type='text' value={signUpUsername} onChange={(e)=>setSignUpUsername(e.target.value)} placeholder='Username' className='bg-[#333] rounded-2xl py-2 px-4 m-2 focus:outline-none' />
+          <input type='password' value={signUpPassword} onChange={(e)=>setSignUpPassword(e.target.value)} placeholder='Password' className='bg-[#333] rounded-2xl py-2 px-4 m-2 focus:outline-none' />
+          <input type='password' value={signUpConfirmPassword} onChange={(e)=>setSignUpConfirmPassword(e.target.value)} placeholder='Confirm Password' className='bg-[#333] rounded-2xl py-2 px-4 m-2 focus:outline-none' />
+          <button type='submit' className='rounded-full bg-[#C40234] py-3 px-5 m-3' onClick={handleSignUp}>Sign Up</button>
+          <div className='flex flex-col items-center mt-10'>
+            <p className='text-lg'>Already have an account?</p>
+            <button className='text-gray-800 bg-white py-2 px-3 m-3 rounded-xl' onClick={handleSignInAnimation}>Sign In</button>
+          </div>
+        </animated.div>
+        <animated.div className='flex flex-col items-center p-10 absolute' style={{...signInSprings}}>
+          <h1 className='text-2xl m-3'>Sign In</h1>
+          <input type='email' value={signInEmail} onChange={(e)=>setSignInEmail(e.target.value)} placeholder='Email' className='bg-[#333] rounded-2xl py-2 px-4 m-2 focus:outline-none' />
+          <input type='password' value={signInPassword} onChange={(e)=>setSignInPassword(e.target.value)} placeholder='Password' className='bg-[#333] rounded-2xl py-2 px-4 m-2 focus:outline-none' />
+          <button type='submit' className='rounded-full bg-[#C40234] py-3 px-5 m-3' onClick={handleSignIn}>Sign In</button>
+          <div className='flex flex-col items-center mt-10'>
+            <p className='text-lg'>Don't have an account?</p>
+            <button className='text-gray-800 bg-white py-3 px-5 m-3 rounded-xl' onClick={handleSignUpAnimation}>Sign Up</button>
+          </div>
+        </animated.div>
+      </div>
+    </div>
+    </>
   )
 }
 
