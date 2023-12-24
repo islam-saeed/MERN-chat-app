@@ -1,10 +1,10 @@
-// const http = require("http");
-// const { Server } = require("socket.io");
 require('dotenv').config()
 const express = require("express");
 const app=express();
 const cors=require("cors");
 const router = require('./routes/authRoutes')
+const ChatRoute = require('./routes/ChatRoute')
+const MessageRoute = require('./routes/MessageRoute')
 const mongoose = require("mongoose");
 app.use(cors());
 app.use(express.json())
@@ -13,6 +13,8 @@ app.use((req,res,next) => {
     next()
 })
 app.use('/',router)
+app.use('/chat', ChatRoute)
+app.use('/message', MessageRoute)
 
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {

@@ -116,13 +116,17 @@ const Auth = () => {
         name: signUpUsername
       }
     };
-    
-    axios(options)
+    try{
+      axios(options)
       .then(response => {
         setUser(response)
         console.log(user)
         navigate('/')
       });
+    }catch(error){
+      console.log(error)
+    }
+    
   }
 
   const handleSignIn = () => {
@@ -138,13 +142,17 @@ const Auth = () => {
         password: signInPassword
       }
     };
-    
-    axios(options)
+    try{
+      axios(options)
       .then(response => {
         setUser(response)
         console.log(user)
         navigate('/')
       });
+    }catch(error){
+      console.log(error)
+    }
+    
   }
   return (
     <>
