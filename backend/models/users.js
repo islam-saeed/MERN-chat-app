@@ -10,8 +10,6 @@ const userSchema = new Schema({
         contentType: String
     },
     name: String,
-    BIO: String,
-    phone: String,
     email: {
         type: String,
         required: true,
@@ -27,8 +25,6 @@ userSchema.statics.signup = async function(email, password, name) {
         throw Error('All fields must be filled')
     } else if (!validator.isEmail(email)){
         throw Error('Your e-mail is not valid')
-    } else if (!validator.isStrongPassword(password)){
-        throw Error('Your password is not strong enough')
     }
 
     const exists = await this.findOne({email})
