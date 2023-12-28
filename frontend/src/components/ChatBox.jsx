@@ -26,7 +26,7 @@ const ChatBox = () => {
       });
     
       socket.current.on("incoming-message", (data) => {
-        setMessages(prev => [...prev, { sender: data.sender, message: data.message}])
+        setMessages(prev => [...prev, { sender: data.sender, message: data.message, createdAt: data.createdAt}])
       });
       
       return () => {
@@ -37,8 +37,8 @@ const ChatBox = () => {
     const handleSubmit = (e) => {
       e.preventDefault();
       if(inputText && socket.current)
-        socket.current.emit("new-message", {sender: user.data.user.name, message: inputText});
-        setMessages(prev => [...prev, { sender: 'you', message: inputText}])
+        socket.current.emit("new-message", {sender: user.data.user.name, message: inputText, createdAt: Date.now()});
+        setMessages(prev => [...prev, { sender: user.data.user.name, message: inputText, createdAt: Date.now()}])
         setInputText('');
     };
   return (
@@ -51,19 +51,15 @@ const ChatBox = () => {
                 </form>
                 <div id="message-container" className='mx-6 flex flex-col'>
                 {messages.map((message)=>{
-                    if(message.sender==='you'){
-                    return (
-                        <div className='flex justify-end' key={message.message}>
-                          <div className='p-4 my-4 bg-gray-700 rounded-xl w-fit'>{message.message}</div>
-                        </div>
-                    )
-                    } else if(message.sender!=='you'){
-                    return (
-                        <div className='flex justify-start' key={message.message}>
-                          <div className='p-4 my-4 bg-gray-800 rounded-xl w-fit'>{message.message}</div>
-                        </div>
-                        )
-                    }
+                  return(
+                    <div>
+                      <div>
+                        <h3 className='inline-block text-xl font-semibold mr-4'>{user.data.user.name}</h3>
+                        <span className='text-gray-400'>{format(message.createdAt)}</span>
+                      </div>
+                      <p>{message.message}</p>
+                    </div>
+                  )
                 })}
                 </div>
             </div>
