@@ -7,6 +7,10 @@ import { userContext } from "./context/UserContext";
 
 function App() {
   const [user, setUser] = useContext(userContext)
+  if(localStorage.getItem("user")){
+    setUser(JSON.parse(localStorage.getItem("user")));
+    console.log(user)
+  }
   return (
     <div className="App bg-[#222] text-white h-[100vh] w-[100%]">
         <BrowserRouter>

@@ -120,6 +120,7 @@ const Auth = () => {
       axios(options)
       .then(response => {
         setUser(response)
+        localStorage.setItem('user', JSON.stringify(response))
         console.log(user)
         navigate('/')
       });
@@ -146,6 +147,7 @@ const Auth = () => {
       axios(options)
       .then(response => {
         setUser(response)
+        localStorage.setItem('user', JSON.stringify(response))
         console.log(user)
         navigate('/')
       });
