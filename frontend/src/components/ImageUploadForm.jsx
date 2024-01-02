@@ -1,6 +1,8 @@
-import React, { useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
+import { userContext } from '../context/UserContext';
 
 const ImageUploadForm = ({className}) => {
+    const [user, setUser] = useContext(userContext)
     const sendData = async (fileObj) => {
 
         let formData = new FormData();
@@ -8,10 +10,10 @@ const ImageUploadForm = ({className}) => {
         formData.append('image',fileObj)
     
         const requestOptions = {
-            method: 'POST',
+            method: 'PATCH',
             body: formData
         };
-        const response = await fetch('http://localhost:4000/api/images/', requestOptions)
+        const response = await fetch(`http://localhost:4000/user/${user?.data?.user._id}/image`, requestOptions)
         const data = await response.json()
       }
       const inputRef = useRef(null);

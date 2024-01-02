@@ -1,6 +1,41 @@
 const User = require('../models/users')
 const jwt = require('jsonwebtoken')
+const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
 
+
+// setting the storage for multer to save the images
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+});
+
+// create a new image
+const uploadImage = async (req, res) => {
+  console.log(req.file);
+  const imageBuffer = {
+      img: {
+          data: fs.readFileSync(path.join(path.dirname(__dirname) + '/uploads/' + req.file.filename)),
+          contentType: req.file.mimetype
+      }
+  }
+  // add image to db
+  try{
+      const user = await User.findByIdAndUpdate(req.params.id, {img: imageBuffer}, {
+        new: true,
+      });
+      console.log(user)
+      res.status(200).json(user);
+  }
+  catch (err){
+      res.status(400).json({err: err.message})
+  }
+}
 
 const updateUser = async (req, res) => {
     const id = req.params.id;
@@ -26,4 +61,4 @@ const updateUser = async (req, res) => {
     }
 }
 
-module.exports = { updateUser }
+module.exports = { updateUser, storage, uploadImage }
