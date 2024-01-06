@@ -30,13 +30,8 @@ const uploadImage = async (req, res) => {
         new: true,
       });
       user.img=req.file
-      const token = jwt.sign(
-        { id: user._id },
-        process.env.SECRET,
-        { expiresIn: "1d" }
-      );
       console.log(user)
-      res.status(200).json({user, token});
+      res.status(200).json(user);
   }
   catch (err){
       res.status(400).json({err: err.message})
