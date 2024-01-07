@@ -29,12 +29,12 @@ const Sidebar = () => {
         <div className='w-[100vw] sm:h-[90vh] h-[100%] bg-[#111] rounded ml-8'>
           <div className='w-[100%] h-20 flex justify-start items-center'>
             <div className="group rounded-full w-16 h-16 m-5 bg-gray-600 cursor-pointer flex justify-center items-center"
-              style={user?.data?.user.img? {backgroundImage: user.data.user.img} : {}}
+              style={user?.user.img? {backgroundImage: user.user.img} : {}}
             >
               <FaCamera className='group-hover:block hidden' onClick={handleImageClick} />
             </div>
             <div>
-              <h4 className='text-2xl'>{user?.data?.user.name}</h4>
+              <h4 className='text-2xl'>{user?.user.name}</h4>
               <h4 className='text-gray-200 cursor-pointer'>Edit</h4>
             </div>
           </div>

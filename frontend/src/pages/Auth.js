@@ -3,9 +3,14 @@ import {useSpring, animated} from 'react-spring'
 import axios from 'axios'
 import { userContext } from '../context/UserContext'
 import { useNavigate } from 'react-router-dom'
+import { CookiesProvider, useCookies } from "react-cookie";
+
+
 const Auth = () => {
 
   const navigate = useNavigate()
+
+  const [cookies, setCookie] = useCookies(["user"]);
 
   const [user, setUser] = useContext(userContext)
 
@@ -119,8 +124,10 @@ const Auth = () => {
     try{
       axios(options)
       .then(response => {
-        setUser(response)
-        localStorage.setItem('user', JSON.stringify(response))
+        setUser(response.data)
+        let date = new Date();
+        date.setTime(date.getTime()+(24*60*60*1000));
+        setCookie("user", response.data, { path: "/", expires: date });
         console.log(user)
         navigate('/')
       });
@@ -146,8 +153,10 @@ const Auth = () => {
     try{
       axios(options)
       .then(response => {
-        setUser(response)
-        localStorage.setItem('user', JSON.stringify(response))
+        setUser(response.data)
+        let date = new Date();
+        date.setTime(date.getTime()+(24*60*60*1000));
+        setCookie("user", response.data, { path: "/", expires: date });
         console.log(user)
         navigate('/')
       });
