@@ -15,6 +15,7 @@ const httpServer = require("http").createServer();
 //     credentials: true,
 //   },
 // });
+let users = []
 const io = require("socket.io")(3001,{
   
     handlePreflightRequest: function (req, res) {
@@ -35,5 +36,13 @@ io.on('connection', (socket) => {
   socket.on("new-message", (data) => {
     socket.broadcast.emit("incoming-message", data)
   });
+  
+  socket.on("new-user", (data) => {
+    users = [...users,data]
+    console.log(users)
+    socket.broadcast.emit("update-users", users)
+  });
+
+
 });
 // httpServer.listen(3001,()=>{console.log('listening on port 3001')});

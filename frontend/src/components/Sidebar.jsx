@@ -3,10 +3,13 @@ import { userContext } from '../context/UserContext'
 import {useSpring, animated} from 'react-spring'
 import { FaCamera } from "react-icons/fa6";
 import ImageUploadForm from './ImageUploadForm';
+import { usersContext } from '../context/UsersContext';
 
 
 const Sidebar = () => {
   const [user, setUser] = useContext(userContext)
+  const [users, setUsers] = useContext(usersContext)
+  console.log('users: ',users)
   const [containerSprings, containerAPI] = useSpring(()=>({
     from:{
       y: -1000,
@@ -38,6 +41,20 @@ const Sidebar = () => {
               <h4 className='text-gray-200 cursor-pointer'>Edit</h4>
             </div>
           </div>
+          <hr className='w-[90%] mx-auto my-4'/>
+          {users[0]?.map((activeUser)=>{
+            return(
+              <div className='w-[100%] h-20 flex justify-start items-center'>
+                <div className="group rounded-full w-16 h-16 m-5 bg-gray-600 cursor-pointer flex justify-center items-center"
+                  style={activeUser?.img? {backgroundImage: activeUser.img} : {}}
+                >
+                </div>
+                <div>
+                  <h4 className='text-2xl'>{activeUser?.username}</h4>
+                </div>
+              </div>
+            )
+          })}
         </div>
     </div>
     <ImageUploadForm className='absolute w-[50vw] h-[90vh] bg-black flex justify-center items-center z-50 rounded' containerSprings={containerSprings} containerAPI={containerAPI}/>

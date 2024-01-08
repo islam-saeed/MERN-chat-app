@@ -6,9 +6,11 @@ import { useContext } from 'react';
 import { userContext } from '../context/UserContext';
 import { format } from "timeago.js";
 import InputEmoji from 'react-input-emoji'
+import { usersContext } from '../context/UsersContext';
 
 const ChatBox = () => {
     const [user, setUser] = useContext(userContext)
+    const [users, setUsers] = useContext(usersContext)
     const socketUrl = process.env.REACT_APP_SOCKET_URL;
     let socket = useRef(null);
     const [inputText, setInputText] = useState('');
@@ -22,11 +24,18 @@ const ChatBox = () => {
       socket.current.connect()
   
       socket.current.on("connect", () => {
+        socket.current.emit("new-user", {username: user.user.name, img: user.user.img? user.user.img : ""});
         console.log("Connected to the server");
       });
+
     
       socket.current.on("incoming-message", (data) => {
         setMessages(prev => [...prev, { sender: data.sender, message: data.message, createdAt: data.createdAt}])
+      });
+
+      socket.current.on("update-users", (data) => {
+        setUsers(prev => [...prev, data]);
+        console.log('users updated')
       });
       
       return () => {
