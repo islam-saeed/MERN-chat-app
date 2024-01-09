@@ -24,7 +24,7 @@ const ChatBox = () => {
       socket.current.connect()
   
       socket.current.on("connect", () => {
-        socket.current.emit("new-user", {username: user.user.name, img: user.user.img? user.user.img : ""});
+        socket.current.emit("new-user", {id:user.user._id, username: user.user.name, img: user.user.img? user.user.img : ""});
         console.log("Connected to the server");
       });
 
@@ -34,7 +34,7 @@ const ChatBox = () => {
       });
 
       socket.current.on("update-users", (data) => {
-        setUsers(prev => [...prev, data]);
+        setUsers(data);
         console.log('users updated')
       });
       

@@ -38,6 +38,7 @@ io.on('connection', (socket) => {
   });
   
   socket.on("new-user", (data) => {
+    socket.emit("update-users", users)
     users = [...users,data]
     console.log(users)
     socket.broadcast.emit("update-users", users)

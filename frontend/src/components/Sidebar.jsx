@@ -29,7 +29,7 @@ const Sidebar = () => {
   return (
     <>
     <div className='bg-[#222] text-white h-[100vh] w-[100%] flex items-center col-span-2'>
-        <div className='w-[100vw] sm:h-[90vh] h-[100%] bg-[#111] rounded ml-8'>
+        <div className='w-[100vw] sm:h-[90vh] h-[100%] bg-[#111] rounded ml-8 overflow-y-scroll'>
           <div className='w-[100%] h-20 flex justify-start items-center'>
             <div className="group rounded-full w-16 h-16 m-5 bg-gray-600 cursor-pointer flex justify-center items-center"
               style={user?.user.img? {backgroundImage: user.user.img} : {}}
@@ -42,10 +42,10 @@ const Sidebar = () => {
             </div>
           </div>
           <hr className='w-[90%] mx-auto my-4'/>
-          {users[0]?.map((activeUser)=>{
+          {users?.map((activeUser)=>{
             return(
-              <div className='w-[100%] h-20 flex justify-start items-center'>
-                <div className="group rounded-full w-16 h-16 m-5 bg-gray-600 cursor-pointer flex justify-center items-center"
+              <div className='w-[100%] h-20 flex justify-start items-center' key={activeUser?._id}>
+                <div className="group rounded-full w-16 h-16 m-5 bg-gray-600 flex justify-center items-center"
                   style={activeUser?.img? {backgroundImage: activeUser.img} : {}}
                 >
                 </div>
