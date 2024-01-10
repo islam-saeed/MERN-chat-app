@@ -34,7 +34,7 @@ const ChatBox = () => {
       });
 
       socket.current.on("update-users", (data) => {
-        setUsers(data);
+        setUsers(data.filter(activeUser=>activeUser.id!==user.user._id));
         console.log('users updated')
       });
       

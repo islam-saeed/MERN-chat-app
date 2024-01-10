@@ -39,9 +39,13 @@ io.on('connection', (socket) => {
   
   socket.on("new-user", (data) => {
     socket.emit("update-users", users)
-    users = [...users,data]
     console.log(users)
-    socket.broadcast.emit("update-users", users)
+    let currentUsers = users.map(user=>user.id)
+    if(!currentUsers.includes(data.id)){
+      users = [...users,data]
+      console.log(users)
+      socket.broadcast.emit("update-users", users)
+    }
   });
 
 
