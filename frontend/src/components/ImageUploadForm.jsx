@@ -2,8 +2,10 @@ import React, { useContext, useRef, useState } from 'react'
 import { userContext } from '../context/UserContext';
 import {animated} from 'react-spring'
 import { IoClose } from "react-icons/io5";
+import { useCookies } from 'react-cookie';
 
 const ImageUploadForm = ({className, containerSprings, containerAPI}) => {
+    const [cookies, setCookie] = useCookies(["user"]);
     const [user, setUser] = useContext(userContext)
     const sendData = async (fileObj) => {
 
@@ -15,9 +17,12 @@ const ImageUploadForm = ({className, containerSprings, containerAPI}) => {
             method: 'PATCH',
             body: formData
         };
-        const response = await fetch(`http://localhost:4000/user/${user?.data?.user._id}/image`, requestOptions)
-        setUser(response)
-        localStorage.setItem('user', JSON.stringify(response))
+        const response = await fetch(`http://localhost:4000/user/${user?.user._id}/image`, requestOptions)
+        const data = await response.json()
+        setUser(data)
+        let date = new Date();
+        date.setTime(date.getTime()+(24*60*60*1000));
+        setCookie("user", data, { path: "/", expires: date });
       }
     const inputRef = useRef(null);
   

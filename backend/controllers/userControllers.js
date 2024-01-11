@@ -24,12 +24,12 @@ const uploadImage = async (req, res) => {
           contentType: req.file.mimetype
       }
   }
+  console.log(imageBuffer)
   // add image to db
   try{
-      const user = await User.findByIdAndUpdate(req.params.id, {img: imageBuffer}, {
+      const user = await User.findByIdAndUpdate(req.params.id, {img: imageBuffer.img}, {
         new: true,
       });
-      user.img=req.file
       console.log(user)
       res.status(200).json(user);
   }
