@@ -157,7 +157,7 @@ const Auth = () => {
         let date = new Date();
         date.setTime(date.getTime()+(24*60*60*1000));
         setCookie("user", response.data, { path: "/", expires: date });
-        console.log(user)
+        console.log('cookies updated successfully')
         navigate('/')
       });
     }catch(error){

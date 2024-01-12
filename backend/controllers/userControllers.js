@@ -30,12 +30,33 @@ const uploadImage = async (req, res) => {
       const user = await User.findByIdAndUpdate(req.params.id, {img: imageBuffer.img}, {
         new: true,
       });
-      console.log(user)
-      res.status(200).json(user);
+      res.status(200).json(user.img);
   }
   catch (err){
       res.status(400).json({err: err.message})
   }
+}
+
+// get a single image
+const getImage = async (req, res) => {
+  const {id} = req.params;
+  if(!mongoose.Types.ObjectId.isValid(id)){
+      return res.status(404).json({error: 'No such image'});
+  }
+  const image = await ImageModel.findById(id);
+  if(!image){
+      return res.status(404).json({error: 'No such image'});
+  }
+  console.log(image.img.data)
+  const b64 = Buffer.from(image.img.data).toString('base64');
+  const mimeType = image.img.contentType
+
+  res.writeHead(200, {
+    'Content-Type': mimeType,
+    'Content-Length': b64.length
+  });
+
+  res.end(b64, 'base64');
 }
 
 const updateUser = async (req, res) => {
@@ -56,7 +77,7 @@ const updateUser = async (req, res) => {
         { expiresIn: "1d" }
       );
       console.log({user, token})
-      res.status(200).json({user, token});
+      res.status(200).json({user:{_id:user._id, name:user.name, email:user.email}, token});
     } catch (error) {
       res.status(500).json(error);
     }

@@ -20,9 +20,6 @@ const ImageUploadForm = ({className, containerSprings, containerAPI}) => {
         const response = await fetch(`http://localhost:4000/user/${user?.user._id}/image`, requestOptions)
         const data = await response.json()
         setUser(data)
-        let date = new Date();
-        date.setTime(date.getTime()+(24*60*60*1000));
-        setCookie("user", data, { path: "/", expires: date });
       }
     const inputRef = useRef(null);
   
