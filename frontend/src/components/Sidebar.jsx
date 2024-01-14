@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { userContext } from '../context/UserContext'
 import {useSpring, animated} from 'react-spring'
 import { FaCamera } from "react-icons/fa6";
@@ -32,7 +32,7 @@ const Sidebar = () => {
         <div className='w-[100vw] sm:h-[90vh] h-[100%] bg-[#111] rounded ml-8 overflow-y-scroll'>
           <div className='w-[100%] h-20 flex justify-start items-center'>
             <div className="group rounded-full w-16 h-16 m-5 bg-gray-600 cursor-pointer flex justify-center items-center"
-              style={user?.user.img? {backgroundImage: user.user.img} : {}}
+              style={user?.user.imgURL? {backgroundImage: `url(${user.user.imgURL})`} : {}}
             >
               <FaCamera className='group-hover:block hidden' onClick={handleImageClick} />
             </div>

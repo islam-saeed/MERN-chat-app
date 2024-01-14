@@ -5,10 +5,7 @@ const bcrypt = require('bcrypt')
 const Schema = mongoose.Schema
 
 const userSchema = new Schema({
-    img:{
-        data: String,
-        contentType: String
-    },
+    imgURL: String,
     name: String,
     email: {
         type: String,

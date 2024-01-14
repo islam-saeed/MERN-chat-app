@@ -17,9 +17,10 @@ const ImageUploadForm = ({className, containerSprings, containerAPI}) => {
             method: 'PATCH',
             body: formData
         };
-        const response = await fetch(`http://localhost:4000/user/${user?.user._id}/image`, requestOptions)
+        const response = await fetch(`http://localhost:4000/user/image/${user?.user._id}/`, requestOptions)
         const data = await response.json()
-        setUser(data)
+        console.log('data: ', data)
+        setUser(prev => prev.user=data)
       }
     const inputRef = useRef(null);
   
