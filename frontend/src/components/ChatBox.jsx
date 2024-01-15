@@ -24,7 +24,7 @@ const ChatBox = () => {
       socket.current.connect()
   
       socket.current.on("connect", () => {
-        socket.current.emit("new-user", {id:user.user._id, username: user.user.name, imgURL: user.user.imgURL? user.user.img : ""});
+        socket.current.emit("new-user", {id:user.user._id, username: user.user.name, imgURL: user.user.imgURL? user.user.imgURL : ""});
         console.log("Connected to the server");
       });
 
@@ -37,13 +37,10 @@ const ChatBox = () => {
         setUsers(data.filter(activeUser=>activeUser.id!==user.user._id));
         console.log('users updated')
       });
-      
-      socket.current.on('disconnect', () => {
-        const data = user.user._id;
-        socket.current.emit('disconnect-event', data);
-      });
 
       return () => {
+        console.log('disconnect')
+        socket.current.emit('disconnect-event', user.user._id);
         socket.current.disconnect();
       };
     }, []);
