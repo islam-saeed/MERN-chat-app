@@ -46,8 +46,15 @@ io.on('connection', (socket) => {
       console.log(users)
       socket.broadcast.emit("update-users", users)
     }
-  });
 
+  });
+  
+  socket.on('disconnect-event', (data)=>{
+    console.log('disconnected')
+    users = users.filter(user=>user.id !== data)
+    console.log(users)
+    socket.broadcast.emit("update-users", users)
+  })
 
 });
 // httpServer.listen(3001,()=>{console.log('listening on port 3001')});

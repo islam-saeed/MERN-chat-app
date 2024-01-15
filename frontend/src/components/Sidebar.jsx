@@ -31,7 +31,7 @@ const Sidebar = () => {
     <div className='bg-[#222] text-white h-[100vh] w-[100%] flex items-center col-span-2'>
         <div className='w-[100vw] sm:h-[90vh] h-[100%] bg-[#111] rounded ml-8 overflow-y-scroll'>
           <div className='w-[100%] h-20 flex justify-start items-center'>
-            <div className="group rounded-full w-16 h-16 m-5 bg-gray-600 cursor-pointer flex justify-center items-center"
+            <div className="group rounded-full w-16 h-16 m-5 bg-gray-600 cursor-pointer flex justify-center items-center bg-cover"
               style={user?.user.imgURL? {backgroundImage: `url(${user.user.imgURL})`} : {}}
             >
               <FaCamera className='group-hover:block hidden' onClick={handleImageClick} />
