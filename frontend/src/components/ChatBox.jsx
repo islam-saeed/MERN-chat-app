@@ -53,28 +53,28 @@ const ChatBox = () => {
         setInputText('');
     };
   return (
-    <div className="bg-[#222] text-white h-[100vh] w-[100%] flex sm:justify-center sm:items-center flex-col col-span-10">
-            <div id="chat-container" className='sm:w-[80vw] w-[100vw] sm:h-[90vh] h-[100%] bg-[#111] rounded flex flex-col-reverse p-3'>
-                <form className='flex justify-around' onSubmit={e=>handleSubmit(e)}>
-                {/* <input type="text" id="message-input" className='bg-[#333] rounded-full w-[90%] py-2 px-4 focus:outline-none' placeholder='type a message' autoComplete='off' value={inputText} onChange={(e)=>setInputText(e.target.value)}/> */}
-                <InputEmoji value={inputText} onChange={(newMessage)=>setInputText(newMessage)} />
-                <button type="submit" id="send-button" className='rounded-full bg-[#C40234] w-12 h-12 flex justify-center items-center text-xl'><IoSend /></button>
-                </form>
-                <div id="message-container" className='mx-6 flex flex-col'>
-                {messages.map((message)=>{
-                  return(
-                    <div>
-                      <div>
-                        <h3 className='inline-block text-xl font-semibold mr-4'>{user.data.user.name}</h3>
-                        <span className='text-gray-400'>{format(message.createdAt)}</span>
-                      </div>
-                      <p>{message.message}</p>
-                    </div>
-                  )
-                })}
+      <div className="bg-[#222] text-white h-[100vh] w-[100%] flex sm:justify-center sm:items-center flex-col col-span-10">
+        <div id="chat-container" className='sm:w-[80vw] w-[100vw] sm:h-[90vh] h-[100%] bg-[#111] rounded flex flex-col-reverse p-3'>
+            <form className='flex justify-around' onSubmit={e=>handleSubmit(e)}>
+            {/* <input type="text" id="message-input" className='bg-[#333] rounded-full w-[90%] py-2 px-4 focus:outline-none' placeholder='type a message' autoComplete='off' value={inputText} onChange={(e)=>setInputText(e.target.value)}/> */}
+            <InputEmoji value={inputText} onChange={(newMessage)=>setInputText(newMessage)} />
+            <button type="submit" id="send-button" className='rounded-full bg-[#C40234] w-12 h-12 flex justify-center items-center text-xl'><IoSend /></button>
+            </form>
+            <div id="message-container" className='mx-6 flex flex-col'>
+            {messages.map((message)=>{
+              return(
+                <div>
+                  <div>
+                    <h3 className='inline-block text-xl font-semibold mr-4'>{user.data.user.name}</h3>
+                    <span className='text-gray-400'>{format(message.createdAt)}</span>
+                  </div>
+                  <p>{message.message}</p>
                 </div>
+              )
+            })}
             </div>
         </div>
+    </div>
   )
 }
 

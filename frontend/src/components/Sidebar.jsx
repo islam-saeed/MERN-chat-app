@@ -46,7 +46,7 @@ const Sidebar = () => {
             return(
               <div className='w-[100%] h-20 flex justify-start items-center' key={activeUser?._id}>
                 <div className="group rounded-full w-16 h-16 m-5 bg-gray-600 flex justify-center items-center"
-                  style={activeUser?.img? {backgroundImage: activeUser.img} : {}}
+                  style={activeUser?.imgURL? {backgroundImage: `url(${activeUser.imgURL})`} : {}}
                 >
                 </div>
                 <div>
