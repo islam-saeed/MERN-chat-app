@@ -9,7 +9,7 @@ const Chat = () => {
     const [cookies, setCookie, removeCookie] = useCookies(['user']);
     const [user, setUser] = useContext(userContext)
     return (
-      <div className='grid grid-cols-12 gap-4'>
+      <div>
         <div className='absolute right-5 top-10 flex justify-center items-center text-white text-5xl cursor-pointer'>
           <IoLogOutOutline onClick={()=> {
             setUser({})
