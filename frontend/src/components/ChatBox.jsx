@@ -48,8 +48,8 @@ const ChatBox = () => {
     const handleSubmit = (e) => {
       e.preventDefault();
       if(inputText && socket.current)
-        socket.current.emit("new-message", {sender: user.data.user.name, message: inputText, createdAt: Date.now()});
-        setMessages(prev => [...prev, { sender: user.data.user.name, message: inputText, createdAt: Date.now()}])
+        socket.current.emit("new-message", {sender: user.user.name, message: inputText, createdAt: Date.now()});
+        setMessages(prev => [...prev, { sender: user.user.name, message: inputText, createdAt: Date.now()}])
         setInputText('');
     };
   return (
@@ -65,7 +65,7 @@ const ChatBox = () => {
               return(
                 <div>
                   <div>
-                    <h3 className='inline-block text-xl font-semibold mr-4'>{user.data.user.name}</h3>
+                    <h3 className='inline-block text-xl font-semibold mr-4'>{message.sender}</h3>
                     <span className='text-gray-400'>{format(message.createdAt)}</span>
                   </div>
                   <p>{message.message}</p>
