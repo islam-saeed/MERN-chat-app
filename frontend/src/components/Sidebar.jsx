@@ -4,6 +4,7 @@ import {useSpring, animated} from 'react-spring'
 import { FaCamera, FaChevronRight, FaChevronLeft } from "react-icons/fa6";
 import ImageUploadForm from './ImageUploadForm';
 import { usersContext } from '../context/UsersContext';
+import UserEditForm from './UserEditForm';
 
 
 const Sidebar = () => {
@@ -18,9 +19,26 @@ const Sidebar = () => {
       opacity: 0
     }
   }))
+
+  const [userContainerSprings, userContainerAPI] = useSpring(()=>({
+    from:{
+      y: -1000,
+      x: window.innerWidth/4,
+      opacity: 0
+    }
+  }))
   
   const handleImageClick = () => {
     containerAPI.start({
+      to: {
+        y: 50,
+        opacity: 1
+      }
+    })
+  }
+  
+  const handleEditClick = () => {
+    userContainerAPI.start({
       to: {
         y: 50,
         opacity: 1
@@ -39,7 +57,7 @@ const Sidebar = () => {
             </div>
             <div>
               <h4 className='text-2xl'>{user?.user.name}</h4>
-              <h4 className='text-gray-200 cursor-pointer'>Edit</h4>
+              <h4 className='text-gray-200 cursor-pointer' onClick={handleEditClick}>Edit</h4>
             </div>
           </div>
           <hr className='w-[90%] mx-auto my-4'/>
@@ -62,6 +80,7 @@ const Sidebar = () => {
       {sidebarOpen? <FaChevronLeft /> : <FaChevronRight />}
     </div>
     <ImageUploadForm className='absolute w-[50vw] h-[90vh] bg-black flex justify-center items-center z-50 rounded' containerSprings={containerSprings} containerAPI={containerAPI}/>
+    <UserEditForm className='absolute w-[50vw] h-[90vh] bg-black flex justify-center items-center z-50 rounded' userContainerSprings={userContainerSprings} userContainerAPI={userContainerAPI}/>
     </>
   )
 }
