@@ -27,19 +27,38 @@ const UserEditForm = ({className, userContainerSprings, userContainerAPI}) => {
     }
 
     const handleSubmit = () => {
+      if(password!==''){
         axios({
-            url:`http://localhost:4000/user/bio/${user.user.id}`,
+            url:`http://localhost:4000/user/bio/${user.user._id}`,
             method:'PATCH',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json;charset=UTF-8'
-            },
-            body: {
+            data: {
                 name: name,
                 email: email,
                 password: password
             }
+        }).then( response => {
+          setUser(response.data)
+          let date = new Date();
+          date.setTime(date.getTime()+(24*60*60*1000));
+          setCookie("user", response.data, { path: "/", expires: date, sameSite:'none' });
+          console.log('cookies updated successfully')
         })
+      } else {
+        axios({
+            url:`http://localhost:4000/user/bio/${user.user._id}`,
+            method:'PATCH',
+            data: {
+                name: name,
+                email: email
+            }
+        }).then( response => {
+          setUser(response.data)
+          let date = new Date();
+          date.setTime(date.getTime()+(24*60*60*1000));
+          setCookie("user", response.data, { path: "/", expires: date, sameSite:'none' });
+          console.log('cookies updated successfully')
+        })
+      }
     }
   return (
     <animated.div className={`${className}`} style={{...userContainerSprings}}>
