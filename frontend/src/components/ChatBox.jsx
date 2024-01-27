@@ -34,10 +34,6 @@ const ChatBox = () => {
       });
 
       socket.current.on("update-users", (data) => {
-        // if(user.user.name!==data.filter(activeUser=>activeUser.id===user.user._id)[0]||user.user.imgURL!==data.filter(activeUser=>activeUser.id===user.user.imgURL)[0]){
-        //   console.log("update-current-user")
-        //   socket.current.emit("update-current-user", {id:user.user._id, username: user.user.name, imgURL: user.user.imgURL? user.user.imgURL : ""});
-        // }
         setUsers(data.filter(activeUser=>activeUser.id!==user.user._id));
         console.log('users updated')
       });
