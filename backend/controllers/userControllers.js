@@ -23,7 +23,7 @@ const updateUser = async (req, res) => {
         { expiresIn: "1d" }
       );
       console.log({user, token})
-      res.status(200).json({user:{_id:user._id, name:user.name, email:user.email}, token});
+      res.status(200).json({user:{_id:user._id, name:user.name, email:user.email, imgURL:user.imgURL}, token});
     } catch (error) {
       res.status(500).json(error);
     }
