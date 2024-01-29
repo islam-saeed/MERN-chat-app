@@ -35,7 +35,6 @@ const getImage = async (req, res) => {
 
     res.writeHead(200, {
       'Content-Type': mimeType,
-      'Content-Length': b64.length
     });
 
     res.end(b64, 'base64');
@@ -48,21 +47,44 @@ const uploadImage = async (req, res) => {
         return res.status(404).json({error: 'No such user'});
     }
     console.log(req.file);
-    const imageBuffer = {
-        img: {
-            data: fs.readFileSync(path.join(path.dirname(__dirname) + '/uploads/' + req.file.filename)),
-            contentType: req.file.mimetype
-        },
-        userId: id
-    }
-    // add image to db
-    try{
-        const image = await ImageModel.create(imageBuffer)
-        const user = await User.findByIdAndUpdate(id, {imgURL: `http://localhost:4000/user/image/${id}/`})
-        res.status(200).json(user);
-    }
-    catch (err){
-        res.status(400).json({err: err.message})
+    const currentImage = await ImageModel.find({userId:id});
+    if(!currentImage){
+        const imageBuffer = {
+            img: {
+                data: fs.readFileSync(path.join(path.dirname(__dirname) + '/uploads/' + req.file.filename)),
+                contentType: req.file.mimetype
+            },
+            userId: id
+        }
+        // add image to db
+        try{
+            const image = await ImageModel.create(imageBuffer)
+            const user = await User.findByIdAndUpdate(id, {imgURL: `${process.env.CURRENT_URI}/user/image/${id}/`}, {
+                new: true,
+              })
+            res.status(200).json({_id:user._id, name:user.name, email:user.email, imgURL:user.imgURL});
+        }
+        catch (err){
+            res.status(400).json({err: err.message})
+        }
+    } else{
+        const imageBuffer = {
+            img: {
+                data: fs.readFileSync(path.join(path.dirname(__dirname) + '/uploads/' + req.file.filename)),
+                contentType: req.file.mimetype
+            },
+            userId: id
+        }
+        await ImageModel.findOneAndUpdate({userId:id}, imageBuffer, {
+            new: true,
+        });
+        try{
+            const user = await User.findById(id);
+            res.status(200).json({_id:user._id, name:user.name, email:user.email, imgURL:user.imgURL});
+        }
+        catch (err){
+            res.status(400).json({err: err.message})
+        }
     }
 }
 

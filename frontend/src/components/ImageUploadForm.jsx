@@ -17,7 +17,7 @@ const ImageUploadForm = ({className, containerSprings, containerAPI}) => {
             method: 'PATCH',
             body: formData
         };
-        const response = await fetch(`http://localhost:4000/user/image/${user?.user._id}/`, requestOptions)
+        const response = await fetch(`${process.env.REACT_APP_USERIMG_URL + '/' + user?.user._id}/`, requestOptions)
         const data = await response.json()
         console.log('data: ', data)
         setUser(prev => prev.user=data)

@@ -52,8 +52,9 @@ const Sidebar = () => {
           <div className='w-[100%] h-20 flex justify-start items-center'>
             <div className="group rounded-full w-16 h-16 m-5 bg-gray-600 cursor-pointer flex justify-center items-center bg-cover bg-no-repeat"
               style={user?.user.imgURL? {backgroundImage: `url(${user.user.imgURL})`} : {}}
+              onClick={handleImageClick}
             >
-              <FaCamera className='group-hover:block hidden' onClick={handleImageClick} />
+              <FaCamera className='group-hover:block hidden' />
             </div>
             <div>
               <h4 className='text-2xl'>{user?.user.name}</h4>
