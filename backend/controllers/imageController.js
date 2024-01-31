@@ -22,17 +22,22 @@ const storage = multer.diskStorage({
 const getImage = async (req, res) => {
     const id = req.params.id;
     console.log(id)
+    // check the given id
     if(!mongoose.Types.ObjectId.isValid(id)){
         return res.status(404).json({error: 'No such image'});
     }
+    // get the image and check if it exists
     const image = await ImageModel.find({userId:id});
     if(!image || image.length === 0){
         return res.status(404).json({error: 'No such image'});
     }
     console.log(image[0].img.data)
+    
+    // use a buffer to send the image as a base64 string
     const b64 = Buffer.from(image[0].img.data).toString('base64');
     const mimeType = image[0].img.contentType
 
+    // use the given mimeType for the content type to tell the browser what type of image this is
     res.writeHead(200, {
       'Content-Type': mimeType,
     });
@@ -43,12 +48,15 @@ const getImage = async (req, res) => {
 // create a new image
 const uploadImage = async (req, res) => {
     const id = req.params.id;
+    // check the given id
     if(!mongoose.Types.ObjectId.isValid(id)){
         return res.status(404).json({error: 'No such user'});
     }
     console.log(req.file);
+    // get the image and check if it exists
     const currentImage = await ImageModel.find({userId:id});
     if(!currentImage){
+        // if it doesn't exist use the uploaded image and create a new one
         const imageBuffer = {
             img: {
                 data: fs.readFileSync(path.join(path.dirname(__dirname) + '/uploads/' + req.file.filename)),
@@ -68,6 +76,7 @@ const uploadImage = async (req, res) => {
             res.status(400).json({err: err.message})
         }
     } else{
+        // if it does exist find its user and update his imageURL
         const imageBuffer = {
             img: {
                 data: fs.readFileSync(path.join(path.dirname(__dirname) + '/uploads/' + req.file.filename)),

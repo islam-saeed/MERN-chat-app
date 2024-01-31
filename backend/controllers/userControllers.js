@@ -4,7 +4,7 @@ const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 
-
+// update user bio
 const updateUser = async (req, res) => {
     const id = req.params.id;
     const { password } = req.body;
@@ -17,6 +17,7 @@ const updateUser = async (req, res) => {
       const user = await User.findByIdAndUpdate(id, req.body, {
         new: true,
       });
+      // get a new token
       const token = jwt.sign(
         { id: user._id },
         process.env.SECRET,
