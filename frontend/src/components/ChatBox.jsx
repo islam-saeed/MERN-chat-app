@@ -9,35 +9,55 @@ import InputEmoji from 'react-input-emoji'
 import { usersContext } from '../context/UsersContext';
 
 const ChatBox = () => {
+    // current user
     const [user, setUser] = useContext(userContext)
+
+    // active users list
     const [users, setUsers] = useContext(usersContext)
+
+    // socket server url
     const socketUrl = process.env.REACT_APP_SOCKET_URL;
+
+    // using reference to avoid re-rendering
     let socket = useRef(null);
+
+    // for chat input text
     const [inputText, setInputText] = useState('');
+
+    // for message display
     const [ messages, setMessages] = useState([]);
   
+    // setting the socket events for each user
     useEffect(() => {
+
+      // initializing the reference
       socket.current = io(socketUrl, {
         autoConnect: false,
       });
-    
+      
+      
+      // connecting to the socket server
       socket.current.connect()
   
+      // sending the user info to the socket server
       socket.current.on("connect", () => {
         socket.current.emit("new-user", {id:user.user._id, username: user.user.name, imgURL: user.user.imgURL? user.user.imgURL : ""});
         console.log("Connected to the server");
       });
 
-    
+
+      // listening for incoming messages
       socket.current.on("incoming-message", (data) => {
         setMessages(prev => [...prev, { sender: data.sender, message: data.message, createdAt: data.createdAt}])
       });
 
+      // listening for new users joining
       socket.current.on("update-users", (data) => {
         setUsers(data.filter(activeUser=>activeUser.id!==user.user._id));
         console.log('users updated')
       });
 
+      // tell the server on disconnection
       return () => {
         console.log('disconnect')
         socket.current.emit('disconnect-event', user.user._id);
@@ -45,6 +65,7 @@ const ChatBox = () => {
       };
     }, [user]);
   
+    // send data to the socket server on submit
     const handleSubmit = (e) => {
       e.preventDefault();
       if(inputText && socket.current)
@@ -56,7 +77,6 @@ const ChatBox = () => {
       <div className="bg-[#222] text-white h-[100vh] w-[100%] flex sm:justify-center sm:items-center flex-col col-span-10">
         <div id="chat-container" className='sm:w-[80vw] w-[100vw] sm:h-[90vh] h-[100%] bg-[#111] rounded flex flex-col-reverse p-3'>
             <form className='flex justify-around' onSubmit={e=>handleSubmit(e)}>
-            {/* <input type="text" id="message-input" className='bg-[#333] rounded-full w-[90%] py-2 px-4 focus:outline-none' placeholder='type a message' autoComplete='off' value={inputText} onChange={(e)=>setInputText(e.target.value)}/> */}
             <InputEmoji value={inputText} onChange={(newMessage)=>setInputText(newMessage)} />
             <button type="submit" id="send-button" className='rounded-full bg-[#C40234] w-12 h-12 flex justify-center items-center text-xl'><IoSend /></button>
             </form>

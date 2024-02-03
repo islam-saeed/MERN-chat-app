@@ -2,11 +2,13 @@ import React, { useContext, useRef, useState } from 'react'
 import { userContext } from '../context/UserContext';
 import {animated} from 'react-spring'
 import { IoClose } from "react-icons/io5";
-import { useCookies } from 'react-cookie';
 
 const ImageUploadForm = ({className, containerSprings, containerAPI}) => {
-    const [cookies, setCookie] = useCookies(["user"]);
+
+    // getting current user
     const [user, setUser] = useContext(userContext)
+
+    // sending the data to the server
     const sendData = async (fileObj) => {
 
         let formData = new FormData();
@@ -20,8 +22,12 @@ const ImageUploadForm = ({className, containerSprings, containerAPI}) => {
         const response = await fetch(`${process.env.REACT_APP_USERIMG_URL + '/' + user?.user._id}/`, requestOptions)
         const data = await response.json()
         console.log('data: ', data)
+
+        // setting the new user
         setUser(prev => prev.user=data)
       }
+    
+    // reference for the input file
     const inputRef = useRef(null);
   
     // browse for the file on click
@@ -69,6 +75,8 @@ const ImageUploadForm = ({className, containerSprings, containerAPI}) => {
           sendData(e.dataTransfer.files[0])
       }
     };
+
+    // animation for closing the form
     const handleImageClose = () => {
       containerAPI.start({
         from: {
