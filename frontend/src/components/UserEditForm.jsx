@@ -6,13 +6,20 @@ import { useCookies } from 'react-cookie';
 import axios from 'axios';
 
 const UserEditForm = ({className, userContainerSprings, userContainerAPI}) => {
+
+    // getting the cookie setter to update cookies on new user edits
     const [cookies, setCookie] = useCookies(["user"]);
+
+    // getting current user
     const [user, setUser] = useContext(userContext)
+
+    // states for form elements
     const [name, setName] = useState(user.user.name)
     const [email, setEmail] = useState(user.user.email)
     const [password, setPassword] = useState('')
     const [passwordConfirmation, setPasswordConfirmation] = useState('')
     
+    // handling form close animations
     const handleImageClose = () => {
       userContainerAPI.start({
         from: {
@@ -26,6 +33,7 @@ const UserEditForm = ({className, userContainerSprings, userContainerAPI}) => {
       })
     }
 
+    // checking for password changes then sending the patch request and updating the user and cookies
     const handleSubmit = () => {
       if(password!==''){
         axios({

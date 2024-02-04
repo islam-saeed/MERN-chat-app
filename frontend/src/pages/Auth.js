@@ -8,12 +8,16 @@ import { CookiesProvider, useCookies } from "react-cookie";
 
 const Auth = () => {
 
+  // to redirect after signing in/up
   const navigate = useNavigate()
 
+  // to set the cookies after signing in/up
   const [cookies, setCookie] = useCookies(["user"]);
 
+  // to set the user to be used throughout the app
   const [user, setUser] = useContext(userContext)
 
+  // states for form elements
   const [signUpEmail, setSignUpEmail] = useState('')
   const [signUpUsername, setSignUpUsername] = useState('')
   const [signUpPassword, setSignUpPassword] = useState('')
@@ -21,6 +25,7 @@ const Auth = () => {
   const [signInEmail, setSignInEmail] = useState('')
   const [signInPassword, setSignInPassword] = useState('')
 
+  // react-spring APIs for switching animation between signing in and signing up
   const [containerSprings, containerAPI] = useSpring(()=>({
     from: {
       x: 0
@@ -39,6 +44,7 @@ const Auth = () => {
     }
   }))
 
+  // changing the form location when sign in button is clicked
   const handleSignInAnimation = () => {
 
     signInAPI.start({
@@ -73,6 +79,7 @@ const Auth = () => {
     })
   }
 
+  // changing the form location when sign up button is clicked
   const handleSignUpAnimation = () => {
 
     signInAPI.start({
@@ -107,6 +114,7 @@ const Auth = () => {
     })
   }
 
+  // sending the post request using axios and setting the user and cookies then redirecting to the chat page
   const handleSignUp = () => {
     const options = {
       url: process.env.REACT_APP_SIGNUP_URL,

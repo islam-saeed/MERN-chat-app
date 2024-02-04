@@ -7,9 +7,15 @@ import { userContext } from "./context/UserContext";
 import { useCookies } from "react-cookie";
 
 function App() {
+
+  // getting the saved cookies
   const [cookies] = useCookies(["user"]);
+
+  // getting the current user
   const [user, setUser] = useContext(userContext)
   console.log('cookies', cookies.user)
+
+  // checking if there's a user already logged in
   if(cookies.user){
     setUser(cookies.user);
     console.log('user', user)

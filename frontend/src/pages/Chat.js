@@ -6,7 +6,10 @@ import { useContext } from 'react';
 import { userContext } from '../context/UserContext';
 
 const Chat = () => {
+    // for removing the cookies on logout
     const [cookies, setCookie, removeCookie] = useCookies(['user']);
+
+    // for removing the current user on logout
     const [user, setUser] = useContext(userContext)
     return (
       <div>

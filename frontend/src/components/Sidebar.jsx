@@ -8,10 +8,17 @@ import UserEditForm from './UserEditForm';
 
 
 const Sidebar = () => {
+  // getting current user
   const [user, setUser] = useContext(userContext)
+
+  // getting active users
   const [users, setUsers] = useContext(usersContext)
+
+  // state for the open/close button for the sidebar
   const [sidebarOpen, setSidebarOpen] = useState(false)
   console.log('users: ',users)
+
+  // react-spring api for image upload form animation
   const [containerSprings, containerAPI] = useSpring(()=>({
     from:{
       y: -1000,
@@ -20,6 +27,7 @@ const Sidebar = () => {
     }
   }))
 
+  // react-spring api for user info form animation
   const [userContainerSprings, userContainerAPI] = useSpring(()=>({
     from:{
       y: -1000,
@@ -28,6 +36,7 @@ const Sidebar = () => {
     }
   }))
   
+  // handling the image upload form opening animation on the user image click
   const handleImageClick = () => {
     containerAPI.start({
       to: {
@@ -37,6 +46,7 @@ const Sidebar = () => {
     })
   }
   
+  // handling the user info form opening animation on the edit button click
   const handleEditClick = () => {
     userContainerAPI.start({
       to: {
