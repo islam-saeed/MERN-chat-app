@@ -33,6 +33,9 @@ const ChatBox = () => {
       // initializing the reference
       socket.current = io(socketUrl, {
         autoConnect: false,
+        query: {
+          token: user.token
+        }
       });
       
       

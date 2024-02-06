@@ -1,6 +1,9 @@
 // using dotenv for environment variables
 require('dotenv').config()
 
+// using jsonwebtoken for JWT authentication
+const jwt = require('jsonwebtoken');
+
 // creating a user array to hold active users
 let users = []
 
@@ -19,6 +22,28 @@ const io = require("socket.io")(3001,{
         res.end();
       }
   });
+
+
+
+// middleware to verify JWT token
+io.use((socket, next) => {
+  const token = socket.handshake.query?.token;
+
+  if (!token) {
+    return next(new Error('Authentication error'));
+  }
+
+  jwt.verify(token, process.env.SECRET, (err, decoded) => {
+    if (err) {
+      return next(new Error('Authentication error'));
+    }
+
+    // store user information in the socket for later use
+    console.log(decoded)
+    socket.decoded = decoded;
+    next();
+  });
+});
 
 // establishing connection and listening for events
 io.on('connection', (socket) => {
